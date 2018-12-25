@@ -1,14 +1,14 @@
 # geeks_read
 
 geeks read 客户端
-<br>
-![avatar](./screen/png1.png)
-<br>
-![avatar](./screen/png2.png)
-<br>
-![avatar](./screen/png3.png)
-<br>
-![avatar](./screen/png4.png)
+<!--<br>-->
+<!--![avatar](./screen/png1.png)-->
+<!--<br>-->
+<!--![avatar](./screen/png2.png)-->
+<!--<br>-->
+<!--![avatar](./screen/png3.png)-->
+<!--<br>-->
+<!--![avatar](./screen/png4.png)-->
 
 ## Getting Started
 
