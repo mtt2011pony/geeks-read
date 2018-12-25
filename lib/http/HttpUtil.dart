@@ -1,9 +1,8 @@
 import 'dart:async';
-import 'package:http/http.dart' as http;
-
 import 'dart:convert';
 
 import 'package:geeks_read/http/Api.dart';
+import 'package:http/http.dart' as http;
 
 /*数据接口类型errorCode>0是接口请求成功
 {
@@ -76,7 +75,9 @@ class HttpUtil {
       if (POST == method) {
         print("POST:URL="+url);
         print("POST:BODY="+paramMap.toString());
-        res = await http.post(url, headers: headerMap, body: paramMap);
+
+        res = await http.post(url, headers: headerMap, body: json.encode(params)
+        );
       } else {
         print("GET:URL="+url);
         res = await http.get(url, headers: headerMap);

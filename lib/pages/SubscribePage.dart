@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:geeks_read/http/Api.dart';
+import 'package:geeks_read/http/HttpUtil.dart';
 class SubscribePage extends StatefulWidget {
   @override
   SubscribePageState createState() => new SubscribePageState();
@@ -9,7 +10,12 @@ class SubscribePageState extends State<SubscribePage> {
   final TextEditingController _controller = new TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+
     Column column = new Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -44,13 +50,7 @@ class SubscribePageState extends State<SubscribePage> {
             color: Theme.of(context).accentColor,
             splashColor: Colors.blueGrey,
             onPressed: () {
-              showDialog(
-                  context: context,
-//                  child: new AlertDialog(
-//                    title: new Text('确认邮箱'),
-//                    content: new Text(_controller.text),
-//                  )
-              );
+              _subscribe();
             })
       ],
     );
@@ -59,4 +59,37 @@ class SubscribePageState extends State<SubscribePage> {
       padding: EdgeInsets.all(20.0),
     );
   }
+
+  void _subscribe() {
+    String email = _controller.text;
+    if (email.length == 0) {
+      _showMessage('请先输入邮箱');
+      return;
+    }
+    Map<String, String> map = new Map();
+    map['email'] = email;
+    String url = Api.SUBSCRIBE;
+    HttpUtil.post(url, (data) async {
+      if (data != null) {
+        Map<String, dynamic> map1 = data;
+        int result = map1['msg'].toString().compareTo("SUCCESS");
+        debugPrint(result.toString());
+
+        if (result == 0) {
+          _showMessage('订阅成功');
+        } else {
+          _showMessage('订阅失败');
+        }
+      }
+    }, params: map,
+    );
+  }
+
+  void _showMessage(String s) {
+    Scaffold.of(context).showSnackBar(new SnackBar(
+      content: new Text(s),
+    ));
+  }
+
+
 }

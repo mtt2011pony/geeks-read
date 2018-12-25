@@ -8,5 +8,5 @@ class Api {
   static const String NEWS_LIST_EN = "?page=1&lang=en";
 
   //邮件订阅
-  static const String SUBSCRIBE = "subscribe";
+  static const String SUBSCRIBE = "/subscribe";
 }
