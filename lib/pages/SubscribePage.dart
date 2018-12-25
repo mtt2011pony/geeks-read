@@ -34,11 +34,13 @@ class SubscribePageState extends State<SubscribePage> {
             fontSize: 14.0,
           ),
         ),
-        new Padding(padding: EdgeInsets.all(20.0)),
+        new Wrap(children: <Widget>[new Padding(padding: EdgeInsets.all(20.0)),
         new TextField(
           controller: _controller,
           decoration: new InputDecoration(hintText: '输入邮箱地址'),
-        ),
+        )
+        ],)
+        ,
         new Padding(padding: EdgeInsets.all(20.0)),
         new RaisedButton(
             child: new Text(
@@ -64,6 +66,13 @@ class SubscribePageState extends State<SubscribePage> {
     String email = _controller.text;
     if (email.length == 0) {
       _showMessage('请先输入邮箱');
+      return;
+    }
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(email)) {
+      _showMessage('请先输入合法邮箱');
       return;
     }
     Map<String, String> map = new Map();

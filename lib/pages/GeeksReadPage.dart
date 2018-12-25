@@ -49,6 +49,8 @@ class _GeeksReadAppState extends State<GeeksReadApp>
             });
           },
         ),
+        resizeToAvoidBottomPadding: false,
+
       ),
     );
   }
