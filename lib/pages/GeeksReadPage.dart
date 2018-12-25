@@ -10,7 +10,6 @@ class GeeksReadApp extends StatefulWidget {
 
 class _GeeksReadAppState extends State<GeeksReadApp>
     with TickerProviderStateMixin {
-  GlobalKey<ScaffoldState> scaffoldKey;
 
   int _tabIndex = 0;
   List<BottomNavigationBarItem> _navigationViews;
@@ -34,8 +33,6 @@ class _GeeksReadAppState extends State<GeeksReadApp>
     return new MaterialApp(
       navigatorKey: navigatorKey,
       home: new Scaffold(
-        key: scaffoldKey,
-
         appBar: new AppBar(
           title: new Text(appBarTitles[_tabIndex]),
         ),
@@ -59,7 +56,6 @@ class _GeeksReadAppState extends State<GeeksReadApp>
   @override
   void initState() {
     super.initState();
-    scaffoldKey = new GlobalKey<ScaffoldState>();
 
     _navigationViews = <BottomNavigationBarItem>[
       new BottomNavigationBarItem(
@@ -78,7 +74,5 @@ class _GeeksReadAppState extends State<GeeksReadApp>
   }
 
   final navigatorKey = GlobalKey<NavigatorState>();
-  void _showMessage(String s) {
-    scaffoldKey.currentState.showSnackBar(new SnackBar(content: new Text(s)));
-  }
+
 }

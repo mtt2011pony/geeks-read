@@ -78,8 +78,10 @@ class NewsItemState extends State<NewsItem> {
         ),
       ),
       new GestureDetector(
-        child: new Text('点击展开',
-            style: new TextStyle(fontSize: 14.0, color: Colors.black54)),
+        child: new Offstage(
+            offstage: !widget.visible,
+            child: new Text('点击展开',
+                style: new TextStyle(fontSize: 14.0, color: Colors.black54))),
         onTap: () {
           _handleOpen(widget.itemData);
         },
@@ -131,12 +133,20 @@ class NewsItemState extends State<NewsItem> {
   Widget showList(bool visible) {
     return new Offstage(
       offstage: widget.visible,
-      child: new ListView.builder(
+      child: new Column(children: <Widget>[new ListView.builder(
         itemCount: widget.listData.length,
         itemBuilder: (context, i) => buildItem(i),
         controller: _controller,
         shrinkWrap: true,
+      ), new GestureDetector(
+        child: new Container(padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 10.0),alignment: Alignment.bottomRight,
+            child: new Text('收起', textAlign: TextAlign.right,
+                style: new TextStyle(fontSize: 14.0, color: Colors.black54,decoration: TextDecoration.underline))),
+        onTap: () {
+          _handleOpen(widget.itemData);
+        },
       ),
+      ],),
     );
   }
 }
