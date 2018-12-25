@@ -4,17 +4,6 @@ import 'dart:convert';
 import 'package:geeks_read/http/Api.dart';
 import 'package:http/http.dart' as http;
 
-/*数据接口类型errorCode>0是接口请求成功
-{
-"data": ...,
-"errorCode": 0,
-"errorMsg": ""
-}
-*/
-
-//class Api {
-//  static const String BaseUrl = "http://www.wanandroid.com/";
-//}
 
 //这里只封装了常见的get和post请求类型,不带Cookie
 class HttpUtil {
