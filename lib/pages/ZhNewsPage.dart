@@ -45,7 +45,7 @@ class ZhNewsPageState extends State<ZhNewsPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (listData == null) {
+    if (listData.length == 0) {
       return new Center(
         child: new CircularProgressIndicator(),
       );
