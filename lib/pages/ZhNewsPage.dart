@@ -17,6 +17,8 @@ class ZhNewsPageState extends State<ZhNewsPage> {
   var listTotalSize = 0;
 
   ScrollController _controller = new ScrollController();
+  bool isPerformingRequest = false;
+
   TextStyle titleTextStyle = new TextStyle(fontSize: 15.0);
   TextStyle subTitleTextSyle =
       new TextStyle(color: Colors.blue, fontSize: 12.0);
@@ -52,7 +54,15 @@ class ZhNewsPageState extends State<ZhNewsPage> {
     } else {
       Widget listView = new ListView.builder(
         itemCount: listData.length ,
-        itemBuilder: (context, i) => buildItem(i),
+        itemBuilder: (context, i) =>
+//        {
+//          if (i == listData.length) {
+//             _buildProgressIndicator();
+//          } else {
+        buildItem(i)
+//          }
+//        }
+        ,
         controller: _controller,
       );
       return new RefreshIndicator(child: listView, onRefresh: _pullToRefresh);
@@ -61,8 +71,10 @@ class ZhNewsPageState extends State<ZhNewsPage> {
 
   void _getZhNewsList() {
 //    String url = Api.BaseUrl;
-    String url = "?page=$curPage&lang=zh";
-    HttpUtil.get(url, (data) {
+    if (!isPerformingRequest) {
+      setState(() => isPerformingRequest = true);
+      String url = "?page=$curPage&lang=zh";
+      HttpUtil.get(url, (data) {
       if (data != null) {
         Map<String, dynamic> map = data;
         var _listData = map['list'];
@@ -81,9 +93,12 @@ class ZhNewsPageState extends State<ZhNewsPage> {
             list1.add(Constants.END_LINE_TAG);
           }
           listData = list1;
+          isPerformingRequest = false;
+
         });
       }
-    });
+      });
+    }
   }
 
   Widget buildItem(int i) {
@@ -101,4 +116,17 @@ class ZhNewsPageState extends State<ZhNewsPage> {
     _getZhNewsList();
     return null;
   }
+
+  Widget _buildProgressIndicator() {
+    return new Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: new Center(
+        child: new Opacity(
+          opacity: isPerformingRequest ? 1.0 : 0.0,
+          child: new CircularProgressIndicator(),
+        ),
+      ),
+    );
+  }
+
 }

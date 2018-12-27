@@ -15,6 +15,8 @@ class EnNewsPageState extends State<EnNewsPage> {
   int curPage = 1;
   List listData = new List();
   int listTotalSize = 0;
+  bool isPerformingRequest = false;
+
   ScrollController _controller = new ScrollController();
 
   @override
@@ -53,29 +55,33 @@ class EnNewsPageState extends State<EnNewsPage> {
   }
 
   void _getNewsList() {
-    String url = "?page=$curPage&lang=en";
-    HttpUtil.get(url, (data) {
-      if (data != null) {
-        Map<String, dynamic> map = data;
-        var _listData = map['list'];
-        listTotalSize = map['count'];
-        debugPrint('listTotalSize:$listTotalSize');
-        setState(() {
-          List list1 = new List();
-          if (curPage == 1) {
-            listData.clear();
-          }
-          curPage++;
+    if (!isPerformingRequest) {
+      setState(() => isPerformingRequest = true);
+      String url = "?page=$curPage&lang=en";
+      HttpUtil.get(url, (data) {
+        if (data != null) {
+          Map<String, dynamic> map = data;
+          var _listData = map['list'];
+          listTotalSize = map['count'];
+          debugPrint('listTotalSize:$listTotalSize');
+          setState(() {
+            List list1 = new List();
+            if (curPage == 1) {
+              listData.clear();
+            }
+            curPage++;
 
-          list1.addAll(listData);
-          list1.addAll(_listData);
-          if (list1.length >= listTotalSize) {
-            list1.add(Constants.END_LINE_TAG);
-          }
-          listData = list1;
-        });
-      }
-    });
+            list1.addAll(listData);
+            list1.addAll(_listData);
+            if (list1.length >= listTotalSize) {
+              list1.add(Constants.END_LINE_TAG);
+            }
+            listData = list1;
+            isPerformingRequest=false;
+          });
+        }
+      });
+    }
   }
 
   builItem(int i) {

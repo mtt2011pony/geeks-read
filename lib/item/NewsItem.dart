@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:geeks_read/item/NewsListItem.dart';
 import 'package:geeks_read/pages/NewsDetailPage.dart';
-import 'package:intl/intl.dart';
 
 class NewsItem extends StatefulWidget {
   var itemData;
   var topic;
-  var time;
   bool visible = true;
-
   List listData = new List();
 
   NewsItem(var itemData) {
     this.itemData = itemData;
     this.topic = itemData['topic'];
-    this.time = topic['date'];
     this.listData = itemData['news'];
   }
 
@@ -68,8 +64,7 @@ class NewsItemState extends State<NewsItem> {
       new Padding(
           padding: EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
           child: new Text(
-              DateFormat('yyyyMMdd').format(DateTime.fromMicrosecondsSinceEpoch(
-                  widget.time['\$date'] * 1000)),
+              widget.itemData['parent_id'].toString(),
               style: new TextStyle(fontSize: 14.0, color: Colors.black54))),
       new Expanded(
         child: new Text(
